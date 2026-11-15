@@ -244,7 +244,7 @@ class VentanaPrincipal:
         marco = ttk.Frame(self.pestanas, padding=12)
         self.pestanas.add(marco, text="Clientes")
         campos = (("Identificación", "identificacion"), ("Nombre", "nombre"),
-                  ("Correo", "correo"), ("Teléfono", "telefono"))
+                ("Correo", "correo"), ("Teléfono", "telefono"))
         self.entradas_clientes = {}
         for fila, (etiqueta, clave) in enumerate(campos):
             ttk.Label(marco, text=etiqueta).grid(row=fila, column=0, sticky="w", pady=4)
