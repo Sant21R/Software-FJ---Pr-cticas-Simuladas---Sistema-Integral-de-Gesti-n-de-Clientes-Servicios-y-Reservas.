@@ -41,3 +41,6 @@ El equipo debe entregar un único proyecto completamente funcional, organizado, 
 objetos y el manejo avanzado de excepciones en un entorno sin base de datos. 
 
 El código Ejercicio 1 - Software FJ - Santiago Ruiz Martínez que es el inicio del programa en el cual configuré el archivo de logs para registrar errores y eventos. Creé las excepciones personalizadas donde todas heredan de una general. Después hice una clase abstracta llamada EntidadBase, que sería la plantilla que heredarán lo que es (Cliente, Servicio y Reserva). También realice la interfaz principal de la ventana del software con tkinter en la cual en los bloques (Cliente, Servicio y Reserva) mis demás compañeros complementan el restante del trabajo.
+## Gestión de servicios
+
+La pestaña **Servicios** permite registrar y listar salas (capacidad), equipos (unidades disponibles) y asesorías (especialidad). Las clases `Sala`, `Equipo` y `Asesoria` heredan de la clase abstracta `Servicio`; sus tarifas se calculan por hora y permiten aplicar impuestos, descuentos y cantidades. El alquiler de equipos valida que la cantidad solicitada no supere las unidades disponibles. Los servicios se guardan en memoria durante la ejecución y sus errores y registros se escriben en `Software FJ.log`.

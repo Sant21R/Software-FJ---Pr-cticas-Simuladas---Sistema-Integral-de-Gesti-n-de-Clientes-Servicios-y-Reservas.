@@ -1,11 +1,11 @@
 #Software FJ - Ejercicio 1: Sistema Integral de Gestión de Clientes, Servicios y Reservas 
 
 # Integrantes:
-# - Santiago Ruiz Martínez
-# - James Dario Acosta López
-# - David Felipe Hidalgo Narvaez
-# - Dayana Nathaly Narvaez Andrade 
-# - Yeferson Quintero
+# - Santiago Ruiz Martínez 
+# - James Dario Acosta López (Responde pero aun no aporta)
+# - David Felipe Hidalgo Narvaez (No responde ni aporta)
+# - Dayana Nathaly Narvaez Andrade (No responde ni aporta)
+# - Yeferson Quintero (Responde y aporta la sección de )
 
 # Tutor: Ing. Juan Pablo Arango Cardona
 
@@ -64,6 +64,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from abc import ABC, abstractmethod
 import logging
+import math
 import os
 
 
@@ -83,36 +84,36 @@ logger.addHandler(manejador)
 
 
 
-# Excepciomes personalizadas para el sistema Software FJ
+# Excepciones
 
 class SoftwareFJError(Exception):
-    """Excepción general del sistema (las demás heredan de esta)."""
+    """Excepción general del sistema (las demás se heredan de esta)."""
 
 class ClienteInvalidoError(SoftwareFJError):
-    """Se usa cuando los datos de un cliente no son válidos."""
+    """Se usa para los datos de un cliente que no son válidos."""
 
 class ServicioInvalidoError(SoftwareFJError):
-    """Se usa cuando los datos de un servicio no son válidos."""
+    """Se usa para cuando los datos de un servicio no son válidos."""
 
 class ParametroFaltanteError(SoftwareFJError):
-    """Se usa cuando falta un dato obligatorio."""
+    """Se usa para cuando falta un dato obligatorio."""
 
 class ServicioNoDisponibleError(SoftwareFJError):
-    """Se usa cuando el servicio no está disponible."""
+    """Se usa para cuando el servicio no está disponible."""
 
 class ReservaError(SoftwareFJError):
-    """Se usa cuando hay un problema con una reserva."""
+    """Se usa para cuando hay un problema con una reserva."""
 
 class OperacionNoPermitidaError(ReservaError):
-    """Se usa cuando se intenta realizar una operación no permitida."""
+    """Se usa para cuando se intenta realizar una operación no permitida."""
 
 class CalculoInconsistenteError(SoftwareFJError):
-    """Se usa cuando hay un cálculo inconsistente en el sistema."""
+    """Se usa para cuando hay un cálculo inconsistente en el sistema."""
 
-# Clase abstracta
+# Clases abstractas
 
 class EntidadBase(ABC):
-    """Todas las entidades (Cliente, Servicio, Reserva) heredan de esta clase."""
+    """Las entidades (Cliente, Servicio, Reserva) se heredan de esta clase"""
 
     def __init__(self):
         self._id = None          
@@ -129,7 +130,7 @@ class EntidadBase(ABC):
     def __str__(self):
         return self.describir()
 
-# gestión de clientes sin base de datos.
+# gestión de clientes sin usar base de datos
 class Cliente(EntidadBase):
     """Representa a un cliente y protege sus datos mediante propiedades."""
 
@@ -215,36 +216,228 @@ class GestorClientes:
         return list(self._clientes)
 
 
-# Tkinter Ventana principal con pestañas para Clientes, Servicios, Reservas y Log
+class Servicio(EntidadBase, ABC):
+    """Base para los servicios ofrecidos por Software FJ."""
+
+    def __init__(self, nombre, tarifa_hora):
+        super().__init__()
+        self.nombre = self._validar_texto(nombre, "nombre del servicio")
+        self.tarifa_hora = tarifa_hora
+
+    @staticmethod
+    def _validar_texto(valor, campo):
+        if not isinstance(valor, str) or not valor.strip():
+            raise ServicioInvalidoError(f"El campo {campo} es obligatorio.")
+        return valor.strip()
+
+    @staticmethod
+    def _validar_numero(valor, campo, minimo=0, exclusivo=False):
+        try:
+            if isinstance(valor, bool):
+                raise ValueError
+            numero = float(valor)
+        except (TypeError, ValueError) as error:
+            raise ServicioInvalidoError(f"El campo {campo} debe ser numérico.") from error
+
+        if not math.isfinite(numero) or (numero <= minimo if exclusivo else numero < minimo):
+            condicion = "mayor que cero" if exclusivo and minimo == 0 else f"igual o mayor que {minimo}"
+            raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+        return numero
+
+    @staticmethod
+    def _validar_entero_positivo(valor, campo):
+        try:
+            if isinstance(valor, bool):
+                raise ValueError
+            numero_decimal = float(valor)
+            if not math.isfinite(numero_decimal) or not numero_decimal.is_integer():
+                raise ValueError
+            numero = int(numero_decimal)
+        except (TypeError, ValueError) as error:
+            raise ServicioInvalidoError(f"El campo {campo} debe ser un número entero positivo.") from error
+        if numero <= 0:
+            raise ServicioInvalidoError(f"El campo {campo} debe ser un número entero positivo.")
+        return numero
+
+    @property
+    def tarifa_hora(self):
+        return self._tarifa_hora
+
+    @tarifa_hora.setter
+    def tarifa_hora(self, valor):
+        self._tarifa_hora = self._validar_numero(
+            valor, "tarifa por hora", minimo=0, exclusivo=True
+        )
+
+    @property
+    @abstractmethod
+    def tipo(self):
+        """Nombre legible del tipo de servicio."""
+        pass
+
+    @property
+    @abstractmethod
+    def detalle(self):
+        """Dato específico que caracteriza al servicio."""
+        pass
+
+    @abstractmethod
+    def validar_parametros(self, cantidad=1):
+        """Valida las condiciones particulares del servicio."""
+        pass
+
+    @abstractmethod
+    def _calcular_costo_base(self, duracion_horas, cantidad):
+        """Calcula el costo antes de impuestos y descuentos."""
+        pass
+
+    def calcular_costo(self, duracion_horas, impuesto=0, descuento=0, cantidad=1):
+        duracion = self._validar_numero(duracion_horas, "duración", minimo=0, exclusivo=True)
+        impuesto = self._validar_numero(impuesto, "impuesto")
+        descuento = self._validar_numero(descuento, "descuento")
+        if impuesto > 100 or descuento > 100:
+            raise ServicioInvalidoError("El impuesto y el descuento deben estar entre 0 y 100.")
+        cantidad = self._validar_entero_positivo(cantidad, "cantidad")
+        self.validar_parametros(cantidad)
+
+        subtotal = self._calcular_costo_base(duracion, cantidad)
+        return round(subtotal * (1 - descuento / 100) * (1 + impuesto / 100), 2)
+
+
+class Sala(Servicio):
+    """Sala que se alquila por hora y tiene una capacidad definida."""
+
+    def __init__(self, nombre, tarifa_hora, capacidad):
+        super().__init__(nombre, tarifa_hora)
+        self._capacidad = self._validar_entero_positivo(capacidad, "capacidad")
+
+    @property
+    def tipo(self):
+        return "Sala"
+
+    @property
+    def detalle(self):
+        return f"{self._capacidad} personas"
+
+    def validar_parametros(self, cantidad=1):
+        self._validar_entero_positivo(cantidad, "cantidad de salas")
+
+    def _calcular_costo_base(self, duracion_horas, cantidad):
+        return self.tarifa_hora * duracion_horas * cantidad
+
+    def describir(self):
+        return f"{self.nombre} | Sala para {self._capacidad} personas | ${self.tarifa_hora:.2f}/hora"
+
+
+class Equipo(Servicio):
+    """Equipo disponible para alquiler por hora."""
+
+    def __init__(self, nombre, tarifa_hora, unidades_disponibles):
+        super().__init__(nombre, tarifa_hora)
+        self._unidades_disponibles = self._validar_entero_positivo(
+            unidades_disponibles, "unidades disponibles"
+        )
+
+    @property
+    def tipo(self):
+        return "Alquiler de equipos"
+
+    @property
+    def detalle(self):
+        return f"{self._unidades_disponibles} unidades disponibles"
+
+    def validar_parametros(self, cantidad=1):
+        cantidad = self._validar_entero_positivo(cantidad, "cantidad de equipos")
+        if cantidad > self._unidades_disponibles:
+            raise ServicioNoDisponibleError(
+                f"Solo hay {self._unidades_disponibles} unidades de {self.nombre} disponibles."
+            )
+
+    def _calcular_costo_base(self, duracion_horas, cantidad):
+        return self.tarifa_hora * duracion_horas * cantidad
+
+    def describir(self):
+        return (
+            f"{self.nombre} | {self._unidades_disponibles} unidades disponibles | "
+            f"${self.tarifa_hora:.2f}/hora por unidad"
+        )
+
+
+class Asesoria(Servicio):
+    """Asesoría especializada que se cobra por hora."""
+
+    def __init__(self, nombre, tarifa_hora, especialidad):
+        super().__init__(nombre, tarifa_hora)
+        self._especialidad = self._validar_texto(especialidad, "especialidad")
+
+    @property
+    def tipo(self):
+        return "Asesoría especializada"
+
+    @property
+    def detalle(self):
+        return self._especialidad
+
+    def validar_parametros(self, cantidad=1):
+        self._validar_entero_positivo(cantidad, "cantidad de asesorías")
+
+    def _calcular_costo_base(self, duracion_horas, cantidad):
+        return self.tarifa_hora * duracion_horas * cantidad
+
+    def describir(self):
+        return f"{self.nombre} | Especialidad: {self._especialidad} | ${self.tarifa_hora:.2f}/hora"
+
+
+class GestorServicios:
+    """Almacena y consulta servicios en memoria."""
+
+    def __init__(self):
+        self._servicios = []
+
+    def registrar(self, servicio):
+        if not isinstance(servicio, Servicio):
+            raise ServicioInvalidoError("Solo se pueden registrar servicios válidos.")
+        servicio._id = f"S{len(self._servicios) + 1:03d}"
+        self._servicios.append(servicio)
+        logger.info("Servicio registrado: %s (%s)", servicio.id, servicio.tipo)
+        return servicio
+
+    def buscar(self, identificacion):
+        return next((servicio for servicio in self._servicios if servicio.id == str(identificacion).strip()), None)
+
+    def listar(self):
+        return list(self._servicios)
+
+
+# Interfaz gráfica con Tkinter
 
 class VentanaPrincipal:
     def __init__(self):
         self.ventana = tk.Tk()
-        self.ventana.title("Software FJ - Clientes, Servicios y Reservas")
+        self.ventana.title("Software FJ")
         self.ventana.geometry("800x500")
 
-        titulo = tk.Label(self.ventana, text="Software FJ",
+        titulo = tk.Label(self.ventana, text="Software FJ x Grupo 322",
                         font=("Arial", 18, "bold"))
         titulo.pack(pady=10)
 
-        # Pestañas Pedientes
+        # Pestañas
         self.pestanas = ttk.Notebook(self.ventana)
         self.pestanas.pack(fill="both", expand=True, padx=10, pady=5)
 
         self.gestor_clientes = GestorClientes()
+        self.gestor_servicios = GestorServicios()
         self.crear_pestana_clientes()
-        self.crear_pestana_pendiente("Servicios", "(Servicio, Sala, Equipo, Asesoría)")
-        self.crear_pestana_pendiente("Reservas", "(clase Reserva y simulación)")
-        self.crear_pestana_log()
+        self.crear_pestana_servicios()
 
         logger.info("Ventana principal iniciada.")
 
-    # formulario de clientes dentro de la interfaz existente.
+    # formulario de clientes
     def crear_pestana_clientes(self):
         marco = ttk.Frame(self.pestanas, padding=12)
-        self.pestanas.add(marco, text="Clientes")
-        campos = (("Identificación", "identificacion"), ("Nombre", "nombre"),
-                ("Correo", "correo"), ("Teléfono", "telefono"))
+        self.pestanas.add(marco, text="CLIENTES")
+        campos = (("Identificación:", "identificacion"), ("Nombre:", "nombre"),
+                ("Correo:", "correo"), ("Teléfono:", "telefono"))
         self.entradas_clientes = {}
         for fila, (etiqueta, clave) in enumerate(campos):
             ttk.Label(marco, text=etiqueta).grid(row=fila, column=0, sticky="w", pady=4)
@@ -254,9 +447,9 @@ class VentanaPrincipal:
 
         botones = ttk.Frame(marco)
         botones.grid(row=4, column=0, columnspan=2, sticky="w", pady=8)
-        ttk.Button(botones, text="Registrar", command=self.registrar_cliente).pack(side="left", padx=4)
-        ttk.Button(botones, text="Buscar por ID", command=self.buscar_cliente).pack(side="left", padx=4)
-        ttk.Button(botones, text="Mostrar todos", command=self.mostrar_clientes).pack(side="left", padx=4)
+        ttk.Button(botones, text="Registrar datos", command=self.registrar_cliente).pack(side="left", padx=4)
+        ttk.Button(botones, text="Buscar ID", command=self.buscar_cliente).pack(side="left", padx=4)
+        ttk.Button(botones, text="Mostrar todos los datos", command=self.mostrar_clientes).pack(side="left", padx=4)
 
         self.tabla_clientes = ttk.Treeview(
             marco, columns=("id", "nombre", "correo", "telefono"), show="headings", height=7
@@ -276,7 +469,7 @@ class VentanaPrincipal:
             logger.warning("Registro de cliente rechazado: %s", error)
             messagebox.showerror("Datos de cliente", str(error))
         else:
-            messagebox.showinfo("Clientes", "Cliente registrado correctamente.")
+            messagebox.showinfo("Clientes", "REGISTRO EXITOSO: Cliente registrado correctamente.")
             for entrada in self.entradas_clientes.values():
                 entrada.delete(0, tk.END)
             self.mostrar_clientes()
@@ -289,7 +482,7 @@ class VentanaPrincipal:
         cliente = self.gestor_clientes.buscar(identificacion)
         self.actualizar_tabla_clientes([cliente] if cliente else [])
         if cliente is None:
-            messagebox.showinfo("Clientes", "No se encontró un cliente con esa identificación.")
+            messagebox.showinfo("Clientes", "REGISTRO FALLIDO: No se encontró un cliente con esa identificación.")
 
     def mostrar_clientes(self):
         self.actualizar_tabla_clientes(self.gestor_clientes.listar())
@@ -302,60 +495,96 @@ class VentanaPrincipal:
                 cliente.id, cliente.nombre, cliente.correo, cliente.telefono
             ))
 
-    def crear_pestana_pendiente(self, nombre, quien):
-        """Pestaña vacía que el compañero correspondiente debe completar."""
-        marco = tk.Frame(self.pestanas)
-        tk.Label(marco, text="Esta pendiente por hacer: " + quien, font=("Arial", 12)).pack(pady=40)
-        self.pestanas.add(marco, text=nombre)
-        return marco
+    def crear_pestana_servicios(self):
+        marco = ttk.Frame(self.pestanas, padding=12)
+        self.pestanas.add(marco, text="SERVICIOS")
 
-    def crear_pestana_log(self):
-        """Pestaña para ver el log y probar que los errores se controlan."""
-        marco = tk.Frame(self.pestanas)
-        self.pestanas.add(marco, text="Registro (log)")
+        ttk.Label(marco, text="Tipo de servicio").grid(row=0, column=0, sticky="w", pady=4)
+        self.tipo_servicio = tk.StringVar(value="Sala")
+        selector = ttk.Combobox(
+            marco, textvariable=self.tipo_servicio,
+            values=("Sala", "Alquiler de equipos", "Asesoría especializada"),
+            state="readonly", width=34
+        )
+        selector.grid(row=0, column=1, sticky="ew", padx=8, pady=4)
+        selector.bind("<<ComboboxSelected>>", self.actualizar_campo_detalle)
 
-        botones = tk.Frame(marco)
-        botones.pack(pady=5)
-        tk.Button(botones, text="Probar error controlado",
-                command=self.probar_error).pack(side="left", padx=5)
-        tk.Button(botones, text="Actualizar log",
-                command=self.mostrar_log).pack(side="left", padx=5)
+        ttk.Label(marco, text="Nombre").grid(row=1, column=0, sticky="w", pady=4)
+        self.entrada_nombre_servicio = ttk.Entry(marco, width=38)
+        self.entrada_nombre_servicio.grid(row=1, column=1, sticky="ew", padx=8, pady=4)
 
-        self.texto_log = tk.Text(marco, height=18, state="disabled")
-        self.texto_log.pack(fill="both", expand=True, padx=5, pady=5)
+        ttk.Label(marco, text="Tarifa por hora").grid(row=2, column=0, sticky="w", pady=4)
+        self.entrada_tarifa_servicio = ttk.Entry(marco, width=38)
+        self.entrada_tarifa_servicio.grid(row=2, column=1, sticky="ew", padx=8, pady=4)
 
-    def probar_error(self):
-        """Demuestra try / except / else / finally y encadenamiento."""
+        self.etiqueta_detalle_servicio = ttk.Label(marco, text="Capacidad (personas)")
+        self.etiqueta_detalle_servicio.grid(row=3, column=0, sticky="w", pady=4)
+        self.entrada_detalle_servicio = ttk.Entry(marco, width=38)
+        self.entrada_detalle_servicio.grid(row=3, column=1, sticky="ew", padx=8, pady=4)
+
+        botones = ttk.Frame(marco)
+        botones.grid(row=4, column=0, columnspan=2, sticky="w", pady=8)
+        ttk.Button(botones, text="Registrar servicio", command=self.registrar_servicio).pack(side="left", padx=4)
+        ttk.Button(botones, text="Mostrar todos", command=self.mostrar_servicios).pack(side="left", padx=4)
+
+        self.tabla_servicios = ttk.Treeview(
+            marco, columns=("id", "tipo", "nombre", "tarifa", "detalle"),
+            show="headings", height=7
+        )
+        for columna, titulo, ancho in (
+            ("id", "ID", 75), ("tipo", "Tipo", 160), ("nombre", "Nombre", 140),
+            ("tarifa", "Tarifa/hora", 100), ("detalle", "Detalle", 180)
+        ):
+            self.tabla_servicios.heading(columna, text=titulo)
+            self.tabla_servicios.column(columna, width=ancho, minwidth=70)
+        self.tabla_servicios.grid(row=5, column=0, columnspan=2, sticky="nsew", pady=8)
+        marco.columnconfigure(1, weight=1)
+        marco.rowconfigure(5, weight=1)
+
+    def actualizar_campo_detalle(self, evento=None):
+        etiquetas = {
+            "Sala": "Capacidad (personas)",
+            "Alquiler de equipos": "Unidades disponibles",
+            "Asesoría especializada": "Especialidad"
+        }
+        self.etiqueta_detalle_servicio.config(text=etiquetas[self.tipo_servicio.get()])
+        self.entrada_detalle_servicio.delete(0, tk.END)
+
+    def registrar_servicio(self):
+        nombre = self.entrada_nombre_servicio.get()
+        tarifa = self.entrada_tarifa_servicio.get()
+        detalle = self.entrada_detalle_servicio.get()
+        tipo = self.tipo_servicio.get()
         try:
-            try:
-                numero = int("abc")                      
-            except ValueError as e:
-                raise ServicioInvalidoError("La tarifa no es un número") from e
-        except SoftwareFJError as e:
-            logger.error("Error controlado: %s | causa: %r", e, e.__cause__)
-            messagebox.showerror("Error controlado", str(e))
+            if tipo == "Sala":
+                servicio = Sala(nombre, tarifa, detalle)
+            elif tipo == "Alquiler de equipos":
+                servicio = Equipo(nombre, tarifa, detalle)
+            else:
+                servicio = Asesoria(nombre, tarifa, detalle)
+            self.gestor_servicios.registrar(servicio)
+        except SoftwareFJError as error:
+            logger.warning("Registro de servicio rechazado: %s", error)
+            messagebox.showerror("Datos del servicio", str(error))
         else:
-            logger.info("No hubo errores en la prueba.")
-        finally:
-            logger.info("Prueba de errores finalizada.")
-            self.mostrar_log()
+            messagebox.showinfo("Servicios", "REGISTRO EXITOSO: Servicio registrado correctamente.")
+            self.entrada_nombre_servicio.delete(0, tk.END)
+            self.entrada_tarifa_servicio.delete(0, tk.END)
+            self.entrada_detalle_servicio.delete(0, tk.END)
+            self.mostrar_servicios()
 
-    def mostrar_log(self):
-        """Lee el archivo de log y lo muestra en pantalla."""
-        try:
-            with open(ARCHIVO_LOG, encoding="utf-8") as archivo:
-                contenido = archivo.read()
-        except OSError as e:
-            contenido = "No se pudo leer el log: " + str(e)
-        self.texto_log.config(state="normal")
-        self.texto_log.delete("1.0", "end")
-        self.texto_log.insert("end", contenido)
-        self.texto_log.see("end")
-        self.texto_log.config(state="disabled")
+    def mostrar_servicios(self):
+        for item in self.tabla_servicios.get_children():
+            self.tabla_servicios.delete(item)
+        for servicio in self.gestor_servicios.listar():
+            self.tabla_servicios.insert("", tk.END, values=(
+                servicio.id, servicio.tipo, servicio.nombre,
+                f"${servicio.tarifa_hora:,.2f}", servicio.detalle
+            ))
 
     def iniciar(self):
         self.ventana.mainloop()
-
+            
 # Software FJ
 
 if __name__ == "__main__":
