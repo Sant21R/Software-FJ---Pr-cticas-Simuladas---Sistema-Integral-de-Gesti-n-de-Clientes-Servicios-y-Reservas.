@@ -397,7 +397,143 @@ class GestorServicios:
     def listar(self):
         return list(self._servicios)
 
+class Reserva(EntidadBase):
 
+    ESTADOS = ("Pendiente", "Confirmada", "Cancelada", "Procesada")
+
+    def __init__(self, cliente, servicio, duracion, cantidad=1):
+        super().__init__()
+
+        if not isinstance(cliente, Cliente):
+            raise ReservaError("Debe seleccionar un cliente válido.")
+
+        if not isinstance(servicio, Servicio):
+            raise ReservaError("Debe seleccionar un servicio válido.")
+
+        try:
+            self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+
+            self._cantidad = Servicio._validar_entero_positivo( cantidad, "cantidad")
+
+            servicio.validar_parametros(self._cantidad)
+
+        except SoftwareFJError as error:
+            raise ReservaError("No fue posible crear la reserva.") from error
+
+        self._cliente = cliente
+        self._servicio = servicio
+        self._estado = "Pendiente"
+
+        self._costo = servicio.calcular_costo( self._duracion, cantidad=self._cantidad)
+
+    @property
+    def cliente(self):
+        return self._cliente
+
+    @property
+    def servicio(self):
+        return self._servicio
+
+    @property
+    def duracion(self):
+        return self._duracion
+
+    @property
+    def estado(self):
+        return self._estado
+
+    @property
+    def costo(self):
+        return self._costo
+
+    def confirmar(self):
+        if self._estado != "Pendiente":
+            raise OperacionNoPermitidaError("Solo se pueden confirmar reservas pendientes.")
+
+        self._estado = "Confirmada"
+        logger.info("Reserva %s confirmada.", self.id)
+
+    def cancelar(self):
+        if self._estado in ("Cancelada", "Procesada"):
+            raise OperacionNoPermitidaError( "No se puede cancelar esta reserva.")
+
+        self._estado = "Cancelada"
+        logger.info("Reserva %s cancelada.", self.id)
+
+    def procesar(self):
+        if self._estado != "Confirmada":
+            raise OperacionNoPermitidaError( "La reserva debe estar confirmada.")
+
+        self._estado = "Procesada"
+        logger.info("Reserva %s procesada.", self.id)
+
+    def describir(self):
+        return (
+            f"Reserva {self.id} | "
+            f"Cliente: {self.cliente.nombre} | "
+            f"Servicio: {self.servicio.nombre} | "
+            f"Duración: {self.duracion} horas | "
+            f"Estado: {self.estado} | "
+            f"Costo: ${self.costo:,.2f}" )
+
+class GestorReservas:
+
+    def __init__(self):
+        self._reservas = []
+        self._contador = 1
+
+    def registrar(self, cliente, servicio, duracion, cantidad=1):
+        try:
+            reserva = Reserva( cliente, servicio, duracion, cantidad)
+            reserva._id = f"R{self._contador:03d}"
+            self._contador += 1
+            self._reservas.append(reserva)
+
+        except SoftwareFJError as error:
+            logger.error( "Error al registrar reserva: %s",error,exc_info=True )
+            raise
+        else:
+            logger.info("Reserva %s registrada.", reserva.id)
+            return reserva
+
+        finally:
+            logger.info("Finalizó el registro de reserva.")
+
+    def buscar(self, identificacion):
+        return next(
+            (r for r in self._reservas
+             if r.id == str(identificacion).strip()),
+            None)
+    def listar(self):
+        return list(self._reservas)
+
+    def confirmar(self, identificacion):
+        reserva = self.buscar(identificacion)
+
+        if reserva is None:
+            raise ReservaError("La reserva no existe.")
+
+        reserva.confirmar()
+        return reserva
+
+    def cancelar(self, identificacion):
+        reserva = self.buscar(identificacion)
+
+        if reserva is None:
+            raise ReservaError("La reserva no existe.")
+
+        reserva.cancelar()
+        return reserva
+
+    def procesar(self, identificacion):
+        reserva = self.buscar(identificacion)
+
+        if reserva is None:
+            raise ReservaError("La reserva no existe.")
+
+        reserva.procesar()
+        return reserva
+        
 # Interfaz gráfica con Tkinter
 
 class VentanaPrincipal:
