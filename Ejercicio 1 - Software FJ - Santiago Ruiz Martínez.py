@@ -502,7 +502,7 @@ class GestorReservas:
     def buscar(self, identificacion):
         return next(
             (r for r in self._reservas
-             if r.id == str(identificacion).strip()),
+            if r.id == str(identificacion).strip()),
             None)
     def listar(self):
         return list(self._reservas)
