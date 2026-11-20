@@ -443,8 +443,12 @@ class Reserva(EntidadBase):
         return self._estado
 
     @property
-     def cantidad(self):
-         return self._cantidad
+    def cantidad(self):
+        return self._cantidad
+
+    @property
+    def costo(self):
+        return self._costo
 
     def confirmar(self):
         if self._estado != "Pendiente":
@@ -603,6 +607,7 @@ class VentanaPrincipal:
             for entrada in self.entradas_clientes.values():
                 entrada.delete(0, tk.END)
             self.mostrar_clientes()
+            self.actualizar_listas_reservas()
 
     def buscar_cliente(self):
         identificacion = self.entradas_clientes["identificacion"].get().strip()
@@ -702,6 +707,7 @@ class VentanaPrincipal:
             self.entrada_tarifa_servicio.delete(0, tk.END)
             self.entrada_detalle_servicio.delete(0, tk.END)
             self.mostrar_servicios()
+            self.actualizar_listas_reservas()
 
     def mostrar_servicios(self):
         for item in self.tabla_servicios.get_children():
@@ -835,7 +841,8 @@ class VentanaPrincipal:
     # REGISTRAR RESERVA
     def registrar_reserva(self):
 
-        try: cliente_seleccionado = self.combo_cliente.get()
+        try:
+            cliente_seleccionado = self.combo_cliente.get()
             servicio_seleccionado = self.combo_servicio.get()
 
             if not cliente_seleccionado or not servicio_seleccionado:
@@ -858,8 +865,9 @@ class VentanaPrincipal:
             cantidad = self.entrada_cantidad.get()
 
             reserva = self.gestor_reservas.registrar(
-                cliente, servicio, duracion, cantidad) except SoftwareFJError as error:
+                cliente, servicio, duracion, cantidad)
 
+        except SoftwareFJError as error:
             logger.error("Error al registrar reserva: %s",
                 error, exc_info=True )
             messagebox.showerror("Error", str(error))
