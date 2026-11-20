@@ -1,0 +1,411 @@
+2026-11-14 20:55:27,551 | INFO | Ventana principal iniciada.
+2026-11-19 21:40:01,135 | INFO | Ventana principal iniciada.
+2026-11-20 07:45:41,915 | INFO | Ventana principal iniciada.
+2026-11-20 07:48:53,994 | INFO | Cliente registrado con identificación: 1004592902
+2026-11-20 07:51:54,969 | INFO | Cliente registrado con identificación: 1115183857
+2026-11-20 09:47:46,626 | INFO | Servicio registrado: S001 (Alquiler de equipos)
+2026-11-20 09:49:49,449 | INFO | Servicio registrado: S002 (Sala)
+2026-11-20 09:52:13,307 | INFO | Servicio registrado: S003 (Asesoría especializada)
+2026-11-20 09:54:12,776 | INFO | Reserva R001 registrada.
+2026-11-20 09:54:12,778 | INFO | Finalizó el registro de reserva.
+2026-11-20 09:56:04,383 | INFO | Reserva R001 confirmada.
+2026-11-20 09:56:41,615 | ERROR | Error al cancelar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 959, in cancelar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 09:56:45,175 | INFO | Reserva R001 cancelada.
+2026-11-20 09:57:49,143 | INFO | Reserva R002 registrada.
+2026-11-20 09:57:49,143 | INFO | Finalizó el registro de reserva.
+2026-11-20 09:58:23,687 | ERROR | Error al procesar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 983, in procesar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 09:58:30,175 | ERROR | Error al procesar reserva: La reserva debe estar confirmada.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 984, in procesar_reserva
+    self.gestor_reservas.procesar(reserva.id)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 536, in procesar
+    reserva.procesar()
+    ~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 467, in procesar
+    raise OperacionNoPermitidaError( "La reserva debe estar confirmada.")
+OperacionNoPermitidaError: La reserva debe estar confirmada.
+2026-11-20 09:58:33,535 | INFO | Reserva R002 confirmada.
+2026-11-20 09:58:39,623 | ERROR | Error al procesar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 983, in procesar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 09:58:42,967 | INFO | Reserva R002 procesada.
+2026-11-20 10:19:14,323 | WARNING | Registro de cliente rechazado: El campo teléfono es obligatorio.
+2026-11-20 10:20:27,618 | WARNING | Registro de cliente rechazado: El campo correo es obligatorio.
+2026-11-20 10:22:32,426 | WARNING | Registro de cliente rechazado: Ya existe un cliente con esa identificación.
+2026-11-20 10:23:57,121 | WARNING | Registro de servicio rechazado: El campo nombre del servicio es obligatorio.
+2026-11-20 10:25:34,043 | WARNING | Registro de servicio rechazado: El campo tarifa por hora debe ser mayor que cero.
+2026-11-20 10:27:19,409 | WARNING | Registro de servicio rechazado: El campo unidades disponibles debe ser un número entero positivo.
+2026-11-20 10:29:10,856 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 10:29:10,925 | INFO | Finalizó el registro de reserva.
+2026-11-20 10:29:10,925 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 10:31:37,392 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 416, in __init__
+    servicio.validar_parametros(self._cantidad)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 339, in validar_parametros
+    raise ServicioNoDisponibleError(
+        f"Solo hay {self._unidades_disponibles} unidades de {self.nombre} disponibles."
+    )
+ServicioNoDisponibleError: Solo hay 5 unidades de Proyector multimedia disponibles.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 10:31:37,393 | INFO | Finalizó el registro de reserva.
+2026-11-20 10:31:37,393 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 416, in __init__
+    servicio.validar_parametros(self._cantidad)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 339, in validar_parametros
+    raise ServicioNoDisponibleError(
+        f"Solo hay {self._unidades_disponibles} unidades de {self.nombre} disponibles."
+    )
+ServicioNoDisponibleError: Solo hay 5 unidades de Proyector multimedia disponibles.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 10:33:50,464 | INFO | Cliente registrado con identificación: 1123456789
+2026-11-20 10:34:05,336 | INFO | Reserva R003 registrada.
+2026-11-20 10:34:05,336 | INFO | Finalizó el registro de reserva.
+2026-11-20 10:53:41,650 | INFO | Ventana principal iniciada.
+2026-11-20 10:58:06,995 | INFO | Cliente registrado con identificación: 1003456789
+2026-11-20 11:00:01,453 | INFO | Ventana principal iniciada.
+2026-11-20 11:01:03,194 | INFO | Cliente registrado con identificación: 1006789345
+2026-11-20 11:01:41,986 | INFO | Cliente registrado con identificación: 123678456
+2026-11-20 11:02:19,666 | INFO | Cliente registrado con identificación: 1005678345
+2026-11-20 11:11:39,767 | WARNING | Registro de cliente rechazado: El campo correo es obligatorio.
+2026-11-20 11:12:04,015 | WARNING | Registro de cliente rechazado: Ingresa un correo electrónico válido.
+2026-11-20 11:12:25,824 | WARNING | Registro de cliente rechazado: Ya existe un cliente con esa identificación.
+2026-11-20 11:13:00,047 | INFO | Servicio registrado: S001 (Sala)
+2026-11-20 11:13:20,039 | INFO | Servicio registrado: S002 (Alquiler de equipos)
+2026-11-20 11:13:49,143 | INFO | Servicio registrado: S003 (Asesoría especializada)
+2026-11-20 11:14:18,263 | WARNING | Registro de servicio rechazado: El campo nombre del servicio es obligatorio.
+2026-11-20 11:14:39,599 | WARNING | Registro de servicio rechazado: El campo unidades disponibles debe ser un número entero positivo.
+2026-11-20 11:15:01,103 | WARNING | Registro de servicio rechazado: El campo tarifa por hora debe ser mayor que cero.
+2026-11-20 11:15:19,223 | WARNING | Registro de servicio rechazado: El campo capacidad debe ser un número entero positivo.
+2026-11-20 11:15:46,015 | INFO | Reserva R001 registrada.
+2026-11-20 11:15:46,015 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:15:54,687 | ERROR | Error al confirmar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 937, in confirmar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 11:15:57,710 | INFO | Reserva R001 confirmada.
+2026-11-20 11:16:10,654 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:16:10,711 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:16:10,711 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:16:23,335 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 414, in __init__
+    self._cantidad = Servicio._validar_entero_positivo( cantidad, "cantidad")
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 246, in _validar_entero_positivo
+    raise ServicioInvalidoError(f"El campo {campo} debe ser un número entero positivo.")
+ServicioInvalidoError: El campo cantidad debe ser un número entero positivo.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:16:23,336 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:16:23,336 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 414, in __init__
+    self._cantidad = Servicio._validar_entero_positivo( cantidad, "cantidad")
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 246, in _validar_entero_positivo
+    raise ServicioInvalidoError(f"El campo {campo} debe ser un número entero positivo.")
+ServicioInvalidoError: El campo cantidad debe ser un número entero positivo.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:16:35,166 | INFO | Reserva R002 registrada.
+2026-11-20 11:16:35,166 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:16:46,911 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:16:46,912 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:16:46,912 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:16:56,639 | INFO | Reserva R002 cancelada.
+2026-11-20 11:17:05,438 | ERROR | Error al procesar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 983, in procesar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "c:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 11:17:14,310 | INFO | Reserva R001 procesada.
+2026-11-20 11:19:21,637 | INFO | Ventana principal iniciada.
+2026-11-20 11:20:20,005 | INFO | Ventana principal iniciada.
+2026-11-20 11:20:54,326 | INFO | Cliente registrado con identificación: 1006545678
+2026-11-20 11:24:12,593 | INFO | Ventana principal iniciada.
+2026-11-20 11:24:42,589 | INFO | Cliente registrado con identificación: 1006789567
+2026-11-20 11:37:45,545 | INFO | Ventana principal iniciada.
+2026-11-20 11:38:31,722 | INFO | Cliente registrado con identificación: 1006789456
+2026-11-20 11:39:19,122 | INFO | Cliente registrado con identificación: 1009678234
+2026-11-20 11:39:59,786 | WARNING | Registro de cliente rechazado: El campo correo es obligatorio.
+2026-11-20 11:40:31,330 | WARNING | Registro de cliente rechazado: El campo teléfono es obligatorio.
+2026-11-20 11:40:47,186 | WARNING | Registro de cliente rechazado: Ingresa un correo electrónico válido.
+2026-11-20 11:41:09,769 | WARNING | Registro de cliente rechazado: Ya existe un cliente con esa identificación.
+2026-11-20 11:42:14,986 | INFO | Servicio registrado: S001 (Sala)
+2026-11-20 11:42:37,521 | INFO | Servicio registrado: S002 (Alquiler de equipos)
+2026-11-20 11:43:03,793 | INFO | Servicio registrado: S003 (Asesoría especializada)
+2026-11-20 11:43:32,049 | WARNING | Registro de servicio rechazado: El campo nombre del servicio es obligatorio.
+2026-11-20 11:44:14,696 | WARNING | Registro de servicio rechazado: El campo tarifa por hora debe ser mayor que cero.
+2026-11-20 11:44:29,017 | WARNING | Registro de servicio rechazado: El campo tarifa por hora debe ser mayor que cero.
+2026-11-20 11:44:37,209 | INFO | Servicio registrado: S004 (Alquiler de equipos)
+2026-11-20 11:45:47,280 | WARNING | Registro de servicio rechazado: El campo tarifa por hora debe ser mayor que cero.
+2026-11-20 11:45:57,432 | WARNING | Registro de servicio rechazado: El campo unidades disponibles debe ser un número entero positivo.
+2026-11-20 11:46:22,920 | WARNING | Registro de servicio rechazado: El campo tarifa por hora debe ser mayor que cero.
+2026-11-20 11:46:36,952 | INFO | Reserva R001 registrada.
+2026-11-20 11:46:36,952 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:46:41,992 | ERROR | Error al confirmar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 937, in confirmar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 11:46:45,176 | INFO | Reserva R001 confirmada.
+2026-11-20 11:46:50,087 | ERROR | Error al procesar reserva: Debe seleccionar una reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 983, in procesar_reserva
+    reserva = self.obtener_reserva_seleccionada()
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 919, in obtener_reserva_seleccionada
+    raise ParametroFaltanteError(
+        "Debe seleccionar una reserva.")
+ParametroFaltanteError: Debe seleccionar una reserva.
+2026-11-20 11:46:52,984 | INFO | Reserva R001 procesada.
+2026-11-20 11:47:02,976 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:47:02,978 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:47:02,978 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:47:16,783 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
+2026-11-20 11:47:16,785 | INFO | Finalizó el registro de reserva.
+2026-11-20 11:47:16,785 | ERROR | Error al registrar reserva: No fue posible crear la reserva.
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 412, in __init__
+    self._duracion = Servicio._validar_numero( duracion, "duración", minimo=0, exclusivo=True)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 231, in _validar_numero
+    raise ServicioInvalidoError(f"El campo {campo} debe ser {condicion}.")
+ServicioInvalidoError: El campo duración debe ser mayor que cero.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 865, in registrar_reserva
+    reserva = self.gestor_reservas.registrar(
+        cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 489, in registrar
+    reserva = Reserva( cliente, servicio, duracion, cantidad)
+  File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
+    raise ReservaError("No fue posible crear la reserva.") from error
+ReservaError: No fue posible crear la reserva.
