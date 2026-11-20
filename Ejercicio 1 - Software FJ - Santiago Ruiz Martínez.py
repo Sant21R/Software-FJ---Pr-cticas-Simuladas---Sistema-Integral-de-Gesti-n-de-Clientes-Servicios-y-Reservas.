@@ -1,11 +1,9 @@
 #Software FJ - Ejercicio 1: Sistema Integral de Gestión de Clientes, Servicios y Reservas 
 
 # Integrantes:
-# - Santiago Ruiz Martínez 
-# - James Dario Acosta López (Responde pero aun no aporta)
-# - David Felipe Hidalgo Narvaez (No responde ni aporta)
-# - Dayana Nathaly Narvaez Andrade (No responde ni aporta)
-# - Yeferson Quintero (Responde y aporta la sección de )
+# - Santiago Ruiz Martínez (Aporta la sección de servicios)
+# - James Dario Acosta López (Aporta la sección de reservas)
+# - Yeferson Quintero (Aporta la sección de clientes)
 
 # Tutor: Ing. Juan Pablo Arango Cardona
 
