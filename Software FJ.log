@@ -409,3 +409,30 @@ Traceback (most recent call last):
   File "C:\Users\Yeferson_Quintero\Proyectos\SoftwareFJ\Ejercicio 1 - Software FJ - Santiago Ruiz Martínez.py", line 419, in __init__
     raise ReservaError("No fue posible crear la reserva.") from error
 ReservaError: No fue posible crear la reserva.
+2026-11-21 10:43:40,124 | INFO | Ventana principal iniciada.
+2026-11-21 10:53:39,502 | INFO | Ventana principal iniciada.
+2026-11-21 10:54:30,804 | INFO | Cliente registrado con identificación: 1087165142
+2026-11-21 10:56:33,260 | INFO | Servicio registrado: S001 (Alquiler de equipos)
+2026-11-21 10:56:44,276 | INFO | Reserva R001 registrada.
+2026-11-21 10:56:44,276 | INFO | Finalizó el registro de reserva.
+2026-11-21 10:56:51,812 | INFO | Reserva R001 confirmada.
+2026-11-21 10:56:55,708 | INFO | Reserva R001 procesada.
+2026-11-21 11:02:08,273 | INFO | Ventana principal iniciada.
+2026-11-21 11:05:13,512 | INFO | Ventana principal iniciada.
+2026-11-21 11:12:58,448 | INFO | Ventana principal iniciada.
+2026-11-21 11:15:19,684 | INFO | Ventana principal iniciada.
+2026-11-21 11:15:44,196 | INFO | Ventana principal iniciada.
+2026-11-21 11:20:58,576 | INFO | Ventana principal iniciada.
+2026-11-21 11:22:37,430 | INFO | Ventana principal iniciada.
+2026-11-21 11:22:53,814 | INFO | Ventana principal iniciada.
+2026-11-21 11:23:31,425 | INFO | Ventana principal iniciada.
+2026-11-21 11:24:25,105 | INFO | Ventana principal iniciada.
+2026-11-21 11:26:54,556 | INFO | Ventana principal iniciada.
+2026-11-21 11:27:28,590 | INFO | Ventana principal iniciada.
+2026-11-21 11:30:44,158 | INFO | Ventana principal iniciada.
+2026-11-21 11:34:21,596 | INFO | Ventana principal iniciada.
+2026-11-21 11:36:58,649 | INFO | Ventana principal iniciada.
+2026-11-21 11:40:52,972 | INFO | Ventana principal iniciada.
+2026-11-21 11:45:09,413 | INFO | Ventana principal iniciada.
+2026-11-21 11:45:18,439 | WARNING | Intento de confirmar reserva: Debe seleccionar una reserva.
+2026-11-21 11:45:27,381 | INFO | Ventana principal iniciada.
