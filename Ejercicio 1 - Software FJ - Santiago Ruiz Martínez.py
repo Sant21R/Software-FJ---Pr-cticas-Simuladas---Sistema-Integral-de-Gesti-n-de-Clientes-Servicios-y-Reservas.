@@ -491,8 +491,7 @@ class GestorReservas:
             self._contador += 1
             self._reservas.append(reserva)
 
-        except SoftwareFJError as error:
-            logger.error( "Error al registrar reserva: %s",error,exc_info=True )
+        except SoftwareFJError:
             raise
         else:
             logger.info("Reserva %s registrada.", reserva.id)
@@ -536,7 +535,7 @@ class GestorReservas:
         reserva.procesar()
         return reserva
         
-# Interfaz gráfica con Tkinter
+# Tkinter Clientes
 
 class VentanaPrincipal:
     def __init__(self):
@@ -547,7 +546,7 @@ class VentanaPrincipal:
         titulo = tk.Label(self.ventana, text="Software FJ x Grupo 322",
                         font=("Arial", 18, "bold"))
         titulo.pack(pady=10)
-
+        
         # Pestañas
         self.pestanas = ttk.Notebook(self.ventana)
         self.pestanas.pack(fill="both", expand=True, padx=10, pady=5)
@@ -560,14 +559,16 @@ class VentanaPrincipal:
         # Creación de pestañas
         self.crear_pestana_clientes()
         self.crear_pestana_servicios()
-        self.crear_pestana_reservas() 
+        self.crear_pestana_reservas()
+        self.crear_pestana_logs()
+        self.pestanas.bind("<<NotebookTabChanged>>", self.actualizar_logs_al_cambiar_pestana)
 
         logger.info("Ventana principal iniciada.")
 
     # formulario de clientes
     def crear_pestana_clientes(self):
         marco = ttk.Frame(self.pestanas, padding=12)
-        self.pestanas.add(marco, text="CLIENTES")
+        self.pestanas.add(marco, text="Clientes")
         campos = (("Identificación:", "identificacion"), ("Nombre:", "nombre"),
                 ("Correo:", "correo"), ("Teléfono:", "telefono"))
         self.entradas_clientes = {}
@@ -577,6 +578,7 @@ class VentanaPrincipal:
             entrada.grid(row=fila, column=1, sticky="ew", padx=8, pady=4)
             self.entradas_clientes[clave] = entrada
 
+    #Botones de registro, búsqueda y mostrar todos los datos
         botones = ttk.Frame(marco)
         botones.grid(row=4, column=0, columnspan=2, sticky="w", pady=8)
         ttk.Button(botones, text="Registrar datos", command=self.registrar_cliente).pack(side="left", padx=4)
@@ -593,6 +595,7 @@ class VentanaPrincipal:
         marco.columnconfigure(1, weight=1)
         marco.rowconfigure(5, weight=1)
 
+    # Funciones de registro, búsqueda y mostrar clientes
     def registrar_cliente(self):
         datos = {clave: entrada.get() for clave, entrada in self.entradas_clientes.items()}
         try:
@@ -607,6 +610,7 @@ class VentanaPrincipal:
             self.mostrar_clientes()
             self.actualizar_listas_reservas()
 
+    # Función de búsqueda de clientes
     def buscar_cliente(self):
         identificacion = self.entradas_clientes["identificacion"].get().strip()
         if not identificacion:
@@ -617,9 +621,11 @@ class VentanaPrincipal:
         if cliente is None:
             messagebox.showinfo("Clientes", "REGISTRO FALLIDO: No se encontró un cliente con esa identificación.")
 
+    # Función para mostrar todos los clientes
     def mostrar_clientes(self):
         self.actualizar_tabla_clientes(self.gestor_clientes.listar())
 
+    # Función para actualizar la tabla de clientes
     def actualizar_tabla_clientes(self, clientes):
         for item in self.tabla_clientes.get_children():
             self.tabla_clientes.delete(item)
@@ -628,10 +634,12 @@ class VentanaPrincipal:
                 cliente.id, cliente.nombre, cliente.correo, cliente.telefono
             ))
 
+# Tkinter servicios
     def crear_pestana_servicios(self):
         marco = ttk.Frame(self.pestanas, padding=12)
-        self.pestanas.add(marco, text="SERVICIOS")
-
+        self.pestanas.add(marco, text="Servicios")
+        
+    # Formulario de registro de servicios
         ttk.Label(marco, text="Tipo de servicio").grid(row=0, column=0, sticky="w", pady=4)
         self.tipo_servicio = tk.StringVar(value="Sala")
         selector = ttk.Combobox(
@@ -641,7 +649,7 @@ class VentanaPrincipal:
         )
         selector.grid(row=0, column=1, sticky="ew", padx=8, pady=4)
         selector.bind("<<ComboboxSelected>>", self.actualizar_campo_detalle)
-
+    # Campos de entrada para nombre, tarifa y capacidad/personas
         ttk.Label(marco, text="Nombre").grid(row=1, column=0, sticky="w", pady=4)
         self.entrada_nombre_servicio = ttk.Entry(marco, width=38)
         self.entrada_nombre_servicio.grid(row=1, column=1, sticky="ew", padx=8, pady=4)
@@ -654,12 +662,14 @@ class VentanaPrincipal:
         self.etiqueta_detalle_servicio.grid(row=3, column=0, sticky="w", pady=4)
         self.entrada_detalle_servicio = ttk.Entry(marco, width=38)
         self.entrada_detalle_servicio.grid(row=3, column=1, sticky="ew", padx=8, pady=4)
-
+        
+    # Botones de registro y mostrar todos los servicios
         botones = ttk.Frame(marco)
         botones.grid(row=4, column=0, columnspan=2, sticky="w", pady=8)
         ttk.Button(botones, text="Registrar servicio", command=self.registrar_servicio).pack(side="left", padx=4)
         ttk.Button(botones, text="Mostrar todos", command=self.mostrar_servicios).pack(side="left", padx=4)
 
+    # Tabla de servicios
         self.tabla_servicios = ttk.Treeview(
             marco, columns=("id", "tipo", "nombre", "tarifa", "detalle"),
             show="headings", height=7
@@ -673,7 +683,8 @@ class VentanaPrincipal:
         self.tabla_servicios.grid(row=5, column=0, columnspan=2, sticky="nsew", pady=8)
         marco.columnconfigure(1, weight=1)
         marco.rowconfigure(5, weight=1)
-
+        
+    # Funciones de registro y mostrar servicios
     def actualizar_campo_detalle(self, evento=None):
         etiquetas = {
             "Sala": "Capacidad (personas)",
@@ -682,7 +693,8 @@ class VentanaPrincipal:
         }
         self.etiqueta_detalle_servicio.config(text=etiquetas[self.tipo_servicio.get()])
         self.entrada_detalle_servicio.delete(0, tk.END)
-
+        
+    # Función para registrar un servicio
     def registrar_servicio(self):
         nombre = self.entrada_nombre_servicio.get()
         tarifa = self.entrada_tarifa_servicio.get()
@@ -706,7 +718,8 @@ class VentanaPrincipal:
             self.entrada_detalle_servicio.delete(0, tk.END)
             self.mostrar_servicios()
             self.actualizar_listas_reservas()
-
+            
+    # Función para mostrar todos los servicios
     def mostrar_servicios(self):
         for item in self.tabla_servicios.get_children():
             self.tabla_servicios.delete(item)
@@ -716,13 +729,12 @@ class VentanaPrincipal:
                 f"${servicio.tarifa_hora:,.2f}", servicio.detalle
             ))
 
-    # PESTAÑA DE RESERVAS
+# Tkinter reservas
 
+    # Función para crear la pestaña de reservas
     def crear_pestana_reservas(self):
-
         marco = ttk.Frame(self.pestanas, padding=12)
-        self.pestanas.add(marco, text="RESERVAS")
-
+        self.pestanas.add(marco, text="Reservas")
         ttk.Label( marco,text="GESTIÓN DE RESERVAS",font=("Arial", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
 
         # Seleccionar cliente
@@ -909,6 +921,94 @@ class VentanaPrincipal:
                     reserva.estado,
                     f"${reserva.costo:,.2f}"))
 
+# Tkinter Archivologs
+
+    # función para crear la pestaña de logs
+    def crear_pestana_logs(self):
+        marco = ttk.Frame(self.pestanas, padding=12)
+        self.pestanas.add(marco, text="Archivo de Logs")
+
+        # Etiqueta
+        ttk.Label(
+            marco,
+            text="Eventualidades y errores del sistema",
+            font=("Arial", 14, "bold")
+        ).pack(anchor="w", pady=(0, 8))
+        # Botón de actualización
+        ttk.Button(
+            marco,
+            text="Actualizar",
+            command=self.mostrar_logs
+        ).pack(anchor="w", pady=(0, 8))
+
+        # Tabla de logs
+        contenedor = ttk.Frame(marco)
+        contenedor.pack(fill="both", expand=True)
+        
+        # Crear tabla de logs
+        self.tabla_logs = ttk.Treeview(
+            contenedor,
+            columns=("fecha", "nivel", "mensaje"),
+            show="headings",
+            height=12
+        )
+        self.tabla_logs.heading("fecha", text="Fecha y hora")
+        self.tabla_logs.heading("nivel", text="Nivel")
+        self.tabla_logs.heading("mensaje", text="Mensaje")
+        self.tabla_logs.column("fecha", width=180, minwidth=160)
+        self.tabla_logs.column("nivel", width=90, minwidth=70)
+        self.tabla_logs.column("mensaje", width=520, minwidth=250)
+
+        # Crear barra de desplazamiento vertical
+        desplazamiento_vertical = ttk.Scrollbar(
+            contenedor,
+            orient="vertical",
+            command=self.tabla_logs.yview
+        )
+        # Configurar la barra de desplazamiento para que funcione con la tabla
+        self.tabla_logs.configure(yscrollcommand=desplazamiento_vertical.set)
+
+        self.tabla_logs.pack(side="left", fill="both", expand=True)
+        desplazamiento_vertical.pack(side="right", fill="y")
+        
+        # Mostrar logs al iniciar la pestaña
+        self.mostrar_logs()
+
+    # Función para actualizar los logs al cambiar de pestaña
+    def actualizar_logs_al_cambiar_pestana(self, evento=None):
+        pestaña = self.pestanas.select()
+        if pestaña and self.pestanas.tab(pestaña, "text") == "Archivo de Logs":
+            self.mostrar_logs()
+
+    # Función para mostrar los logs en la tabla
+    def mostrar_logs(self):
+        for item in self.tabla_logs.get_children():
+            self.tabla_logs.delete(item)
+
+        try:
+            with open(ARCHIVO_LOG, "r", encoding="utf-8") as archivo:
+                lineas = archivo.readlines()
+        except OSError as error:
+            logger.warning("No fue posible leer el archivo de logs: %s", error)
+            lineas = []
+
+    # Procesar las líneas del archivo de logs y extraer la información
+        entradas = []
+        for linea in lineas:
+            linea = linea.rstrip()
+            partes = linea.split(" | ", 2)
+            if len(partes) == 3 and partes[1] in (
+                "INFO", "WARNING", "ERROR", "CRITICAL"
+            ):
+                entradas.append((partes[0], partes[1], partes[2]))
+
+        for fecha, nivel, mensaje in entradas[-300:]:
+            self.tabla_logs.insert(
+                "",
+                tk.END,
+                values=(fecha, nivel, mensaje)
+            )
+
     # OBTENER RESERVA SELECCIONADA
 
     def obtener_reserva_seleccionada(self):
@@ -939,9 +1039,13 @@ class VentanaPrincipal:
 
         except SoftwareFJError as error:
 
-            logger.error(
-                "Error al confirmar reserva: %s",
-                error, exc_info=True)
+            if isinstance(error, ParametroFaltanteError):
+                logger.warning(
+                    "Intento de confirmar reserva: %s", error)
+            else:
+                logger.error(
+                    "Error al confirmar reserva: %s",
+                    error, exc_info=True)
             messagebox.showerror("Error", str(error))
 
         else:
@@ -961,9 +1065,13 @@ class VentanaPrincipal:
 
         except SoftwareFJError as error:
 
-            logger.error(
-                "Error al cancelar reserva: %s",
-                error, exc_info=True)
+            if isinstance(error, ParametroFaltanteError):
+                logger.warning(
+                    "Intento de cancelar reserva: %s", error)
+            else:
+                logger.error(
+                    "Error al cancelar reserva: %s",
+                    error, exc_info=True)
 
             messagebox.showerror("Error", str(error))
 
@@ -985,9 +1093,13 @@ class VentanaPrincipal:
 
         except SoftwareFJError as error:
 
-            logger.error(
-                "Error al procesar reserva: %s",
-                error, exc_info=True)
+            if isinstance(error, ParametroFaltanteError):
+                logger.warning(
+                    "Intento de procesar reserva: %s", error)
+            else:
+                logger.error(
+                    "Error al procesar reserva: %s",
+                    error, exc_info=True)
 
             messagebox.showerror("Error", str(error))
 
